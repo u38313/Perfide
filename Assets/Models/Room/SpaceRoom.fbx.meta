@@ -3,7 +3,242 @@ guid: f37d349fbe5e9dc469f70f9bbaf8c0c7
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Aluminium
+    second: {fileID: 2100000, guid: d96bacae4b5227f4ba5caf7c2b7792b3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Aluminium sand
+    second: {fileID: 2100000, guid: 69dc0c6d86447c8458ca6ea14dab00b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gris plastic
+    second: {fileID: 2100000, guid: 7392b22fd52125b4587ed468d5223983, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gun Metal
+    second: {fileID: 2100000, guid: 1ea475f7ebb5db1449d46276a12da249, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ISS Panels
+    second: {fileID: 2100000, guid: ac5cdba39a84a58479771690663d9562, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ISS Panels.002
+    second: {fileID: 2100000, guid: 4468bae517d2ac3489d8ccdd96a2b770, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.015
+    second: {fileID: 2100000, guid: 00d8374c53c42444aaf04dfe6a6e4c8c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.016
+    second: {fileID: 2100000, guid: 9b5d0b3f709f4a942adc7b64964ec409, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.021
+    second: {fileID: 2100000, guid: b0b1a2e8b1cc0004da17c43344790c63, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.022
+    second: {fileID: 2100000, guid: 97c3b917db0602248bc6eb9da76cf2f3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Office Ceiling
+    second: {fileID: 2100000, guid: 330d5ce0bba36be4da0ac5a020b4d211, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sci-Fi Module
+    second: {fileID: 2100000, guid: ea15ff2978076914c8d9a6d3ffb7901d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Scifi Space Panel Chrome.001
+    second: {fileID: 2100000, guid: e10ed3d930b57bf49bc40e288e3c1296, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Scifi Space Panel Dull
+    second: {fileID: 2100000, guid: 9810c6f2c17eb284aafee90cc7d77f46, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Scifi Space Panel Pale
+    second: {fileID: 2100000, guid: 1a98f45385ced7c43838d6c2c184b0f2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Scifi Space Panel Silver
+    second: {fileID: 2100000, guid: 8543e5fc783f76a45883acfa7b337900, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Scratched polished aluminium
+    second: {fileID: 2100000, guid: 829831e7ed580604e957efcc58f40ca8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: base interruptor.002
+    second: {fileID: 2100000, guid: 6a366feb43535fd4084131a52c9b7476, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: base interruptor.003
+    second: {fileID: 2100000, guid: 593fe54e2531f324a8acd9e836f31033, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: base interruptor.004
+    second: {fileID: 2100000, guid: 8623e9ed40ae57c4baa30db7bad026ec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: llum interruptor.001
+    second: {fileID: 2100000, guid: 690ba3aab6b99fa4f8e2882221c3ccb6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: llum.002
+    second: {fileID: 2100000, guid: 405302c0f262ff041b975e87260d9192, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: llum.003
+    second: {fileID: 2100000, guid: 940cfd0314a5d9447804adcff0cdb357, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material base de tot
+    second: {fileID: 2100000, guid: 8052585750693894e9fe43dc3de77c21, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material base de tot.caixa electronica
+    second: {fileID: 2100000, guid: a249a8749ed52ec4da92b8c21113bdd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material base de tot.tapa.002
+    second: {fileID: 2100000, guid: caabd31fbb8c9cb49a48e90646188a58, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall clar.001
+    second: {fileID: 2100000, guid: c1d9a19b92d62534f9aabf0950d61ae1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall clar.003
+    second: {fileID: 2100000, guid: 4a8eb6a4d3fa57844a28fe4fee7a1a40, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall clar.004
+    second: {fileID: 2100000, guid: 1ddee94972953e748870a06dfa240edb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall cromat
+    second: {fileID: 2100000, guid: 0e4f489783b81c14aa66bb57a0a9ab72, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall cromat.002
+    second: {fileID: 2100000, guid: dbb93e66515694f4ab5772a736e3104a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall porta botoneres.002
+    second: {fileID: 2100000, guid: 4721a55eea44316479b99185ccfa2f16, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall porta botoneres.003
+    second: {fileID: 2100000, guid: e2fe7941b4170a647b4f5901c9103abb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall porta botoneres.004
+    second: {fileID: 2100000, guid: 94decfbbd65d42144ba3f595737708e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metall porta.001
+    second: {fileID: 2100000, guid: 6d1bc1870653801409b6f0ab8a1b611f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic blau
+    second: {fileID: 2100000, guid: dafaa93cb3d30094088669a19e6dcb6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic negre
+    second: {fileID: 2100000, guid: 884602d174547084a81d366aa2dc8b5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic negre.004
+    second: {fileID: 2100000, guid: 261639d66af710540aed4132cf201d1e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic negre.005
+    second: {fileID: 2100000, guid: 2a9b023c79f9d8e429b8f14b95c9a68e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic negre.006
+    second: {fileID: 2100000, guid: c50d94efa25baa749955a46ee967a12e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic negre.007
+    second: {fileID: 2100000, guid: e4af3af0002298a44aa21b8ec1e658d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic vermell
+    second: {fileID: 2100000, guid: 9f72b79aa94633b4a86f9cc300ca2cd3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: textil
+    second: {fileID: 2100000, guid: a286ced5d2f81bf4e84c9fe7d06ca927, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: textil.002
+    second: {fileID: 2100000, guid: 6cab7f9a435edb14c9546667cb4e5f0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: textil.003
+    second: {fileID: 2100000, guid: fea1fc29b8afc2143a66980287184108, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: textil.004
+    second: {fileID: 2100000, guid: b6f85de634736d9438e4a75c8db12137, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: textil.005
+    second: {fileID: 2100000, guid: 6db5368445eac604aac084ea03dd28dd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
