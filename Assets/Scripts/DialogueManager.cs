@@ -66,10 +66,12 @@ public class DialogueManager : MonoBehaviour
         isDialogueActive = true;
         dialoguePanel.SetActive(true);
 
-        RefreshView();
-    }   
+        // WICHTIG: Hier NICHT mehr RefreshView() aufrufen!
+        // Wir machen das jetzt manuell in den anderen Skripten, 
+        // nachdem wir Knots oder Variablen gesetzt haben.
+    }
 
-   public void RefreshView()
+    public void RefreshView()
     {
         // 1. Alte Buttons löschen
         foreach (Transform child in choiceContainer) Destroy(child.gameObject);

@@ -41,6 +41,7 @@ public class MysteryManager : MonoBehaviour
     // 1. Die Luke/Fenster Interaktion
     public void OnWindowInteract()
     {
+        Debug.Log("Luke angeklickt. Intro fertig? " + isIntroFinished); // <--- HIER
         if (!isIntroFinished)
         {
             // Fall A: Intro noch nicht passiert -> Startet Cutscene
@@ -56,6 +57,7 @@ public class MysteryManager : MonoBehaviour
     // 2. Grigsby Drinnen Interaktion
     public void OnInsideGrigsbyInteract()
     {
+        Debug.Log("Grigsby Innen angeklickt. Intro fertig? " + isIntroFinished); // <--- HIER
         if (isIntroFinished)
         {
             StartDialogue("Interrogate_G1");
@@ -109,17 +111,17 @@ public class MysteryManager : MonoBehaviour
 
     void StartDialogue(string knotName)
     {
-        DialogueManager.Instance.StartDialogue(interrogationInk);
-        DialogueManager.Instance.story.ChoosePathString(knotName);
+            DialogueManager.Instance.StartDialogue(interrogationInk); // Lädt Story, Panel geht an (und bleibt jetzt an!)
+            DialogueManager.Instance.story.ChoosePathString(knotName); // Springt zum richtigen Knot
 
-        // Wissen an Ink übergeben
-        if (scanLogUnlocked)
+            // Wissen an Ink übergeben
+            if (scanLogUnlocked)
         {
             DialogueManager.Instance.story.variablesState["know_crane_fixed_log"] = true;
         }
 
-        DialogueManager.Instance.RefreshView();
-    }
+        DialogueManager.Instance.RefreshView(); // Zeigt den Text an -> PERFEKT!
+}
 
     void EnableEndGame()
     {

@@ -24,8 +24,11 @@ public class StoryDirector : MonoBehaviour
         // 1. Grigsby kommt rein
         if (grigsbyInside) grigsbyInside.SetActive(true);
 
-        // 2. Dialog startet
+        // 2. Dialog laden
         DialogueManager.Instance.StartDialogue(introInkJSON);
+
+        // 3. Textanzeige starten (NEU HINZUFÜGEN)
+        DialogueManager.Instance.RefreshView();
     }
 
     void OnDirectorEvent(string eventName)
