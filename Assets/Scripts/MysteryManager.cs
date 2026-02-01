@@ -1,97 +1,124 @@
 using UnityEngine;
-using Ink.Runtime;
+using Ink.Runtime; // Benötigt Ink Plugin
 
 public class MysteryManager : MonoBehaviour
 {
     public static MysteryManager Instance;
 
+    [Header("Controllers")]
+    public TerminalController terminalController;
+
     [Header("References")]
     public TerminalUI terminalUI;
-    public TextAsset interrogationInk;
+    public StoryDirector storyDirector;
+
+    [Header("Story Data")]
+    public TextAsset interrogationInk; // Das Verhör-Skript
     public GameObject gunObject;
     public GameObject leverObject;
 
-    [Header("Game State Flags")]
-    public bool heardInsideStory = false;
-    public bool heardOutsideStory = false;
-    public bool scanLogUnlocked = false;
+    // --- State Flags ---
+    private bool isIntroFinished = false;
+    private bool heardInsideStory = false;
+    private bool heardOutsideStory = false;
+    private bool scanLogUnlocked = false;
 
     private void Awake()
     {
         Instance = this;
-        if (gunObject) gunObject.GetComponent<Collider>().enabled = false;
-        if (leverObject) leverObject.GetComponent<Collider>().enabled = false;
+        if (gunObject) gunObject.SetActive(false); // Waffe erst am Ende an
+        if (leverObject) leverObject.SetActive(false);
     }
 
     private void Start()
     {
-        // Wir hören auf alle Events vom DialogueManager
+        // Wir hören auf Ink Events
         DialogueManager.Instance.OnGameEvent += HandleInkEvents;
     }
 
-    private void OnDestroy()
+    // --- INTERAKTIONEN (Werden von Objekten aufgerufen) ---
+
+    // 1. Die Luke/Fenster Interaktion
+    public void OnWindowInteract()
     {
-        if (DialogueManager.Instance != null)
-            DialogueManager.Instance.OnGameEvent -= HandleInkEvents;
+        if (!isIntroFinished)
+        {
+            // Fall A: Intro noch nicht passiert -> Startet Cutscene
+            storyDirector.StartIntroScene();
+        }
+        else
+        {
+            // Fall B: Intro vorbei -> Startet Gespräch mit Grigsby Draußen
+            StartDialogue("Interrogate_G2");
+        }
     }
 
-    // --- 1. Wird aufgerufen, wenn das INTRO vorbei ist ---
-    public void FinishIntro()
+    // 2. Grigsby Drinnen Interaktion
+    public void OnInsideGrigsbyInteract()
     {
-        Debug.Log("Intro Finished: Unlocking Crew Log");
-        terminalUI.UnlockLog(2); // Crew Info (Button 3) freischalten
+        if (isIntroFinished)
+        {
+            StartDialogue("Interrogate_G1");
+        }
     }
 
-    // --- 2. Wird aufgerufen von DialogueManager, wenn Tags kommen ---
+    // --- LOGIK & EVENTS ---
+
     void HandleInkEvents(string eventName)
     {
         switch (eventName)
         {
             case "IntroDone":
-                FinishIntro();
+                FinishIntroSequence();
                 break;
-
             case "HeardInsideStory":
                 heardInsideStory = true;
                 CheckForScanUnlock();
                 break;
-
             case "HeardOutsideStory":
                 heardOutsideStory = true;
                 CheckForScanUnlock();
                 break;
-
             case "EnableGunAndLever":
-                EnableEndgame();
+                EnableEndGame();
                 break;
         }
     }
 
-    // --- 3. Logik: Haben wir beide Stories gehört? ---
+    void FinishIntroSequence()
+    {
+        Debug.Log("Intro beendet. Free Game Mode.");
+
+        // 1. Logs freischalten
+        terminalUI.UnlockLog(2);
+
+        // 2. MONITOR INTERAKTION FREISCHALTEN!
+        if (terminalController != null)
+        {
+            terminalController.SetInteractable(true);
+        }
+
+        // 3. Flags setzen
+        isIntroFinished = true;
+    }
+
     void CheckForScanUnlock()
     {
-        // Nur feuern, wenn noch nicht passiert, und beide Bedingungen wahr sind
+        // Wenn beide Geschichten gehört wurden -> Scan Log freischalten
         if (!scanLogUnlocked && heardInsideStory && heardOutsideStory)
         {
-            Debug.Log("Widerspruch erkannt! Scan Log freigeschaltet.");
+            Debug.Log("Widerspruch gefunden! Scan Log unlocked.");
             scanLogUnlocked = true;
-            terminalUI.UnlockLog(3); // Scan Log (Button 4) freischalten
-
-            // WICHTIG: Ink sagen, dass wir es wissen!
-            // (Passiert beim Start des nächsten Dialogs, siehe TalkTo...)
+            terminalUI.UnlockLog(3);
         }
     }
 
-    // --- 4. Startet Dialoge ---
-    public void TalkToInside() => StartInterrogation("Interrogate_G1");
-    public void TalkToOutside() => StartInterrogation("Interrogate_G2");
-
-    private void StartInterrogation(string knotName)
+    void StartDialogue(string knotName)
     {
         DialogueManager.Instance.StartDialogue(interrogationInk);
         DialogueManager.Instance.story.ChoosePathString(knotName);
 
-        // Wenn das Log unlocked ist, sagen wir es Ink
+        // Wissen an Ink übergeben
         if (scanLogUnlocked)
         {
             DialogueManager.Instance.story.variablesState["know_crane_fixed_log"] = true;
@@ -100,10 +127,11 @@ public class MysteryManager : MonoBehaviour
         DialogueManager.Instance.RefreshView();
     }
 
-    void EnableEndgame()
+    void EnableEndGame()
     {
-        Debug.Log("Endphase aktiv!");
-        if (gunObject) gunObject.GetComponent<Collider>().enabled = true;
-        if (leverObject) leverObject.GetComponent<Collider>().enabled = true;
+        Debug.Log("Endphase! Wähle weise.");
+        if (gunObject) gunObject.SetActive(true);
+        if (leverObject) leverObject.SetActive(true);
+        // Optional: Collider aktivieren statt SetActive, je nach Setup
     }
 }

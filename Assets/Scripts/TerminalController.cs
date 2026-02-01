@@ -4,13 +4,13 @@ using System.Collections;
 public class TerminalController : MonoBehaviour, IInteractable
 {
     [Header("References")]
-    public TerminalUI terminalUIScript; // Dein existierendes Skript
-    public Transform viewPoint;         // Das leere Objekt vor dem Monitor
-    public Canvas terminalCanvas;       // Das WorldSpace Canvas
+    public Transform viewPoint;
+    public Canvas terminalCanvas;
 
     [Header("Settings")]
-    public float transitionSpeed = 2.0f;
-    public bool startActive = true;     // Soll das Spiel direkt hier starten?
+    public string promptText = "Terminal benutzen";
+    public bool isInteractable = false; // Wird vom MysteryManager gesteuert!
+    public bool startActive = true;     // Startet das Spiel sitzend?
 
     private Camera mainCam;
     private Vector3 originalPosition;
@@ -21,41 +21,47 @@ public class TerminalController : MonoBehaviour, IInteractable
     {
         mainCam = Camera.main;
 
-        // Canvas am Anfang unsichtbar/inaktiv machen, falls gew¸nscht
-        // terminalCanvas.gameObject.SetActive(true); 
-
+        // Setup f¸r Spielstart
         if (startActive)
         {
-            // Hack: Kleiner Delay, damit GameManager erst initialisiert ist
-            StartCoroutine(StartSequenceDelayed());
-        }
-    }
+            // Wir tun so, als w‰ren wir schon reingegangen
+            isAtTerminal = true;
+            GameManager.Instance.UpdateGameState(GameState.ReadingLog);
 
-    IEnumerator StartSequenceDelayed()
-    {
-        yield return new WaitForSeconds(0.1f);
-        EnterTerminal(true); // true = sofort springen ohne Animation
+            // Kamera direkt positionieren ohne Fahrt
+            if (viewPoint != null)
+            {
+                mainCam.transform.position = viewPoint.position;
+                mainCam.transform.rotation = viewPoint.rotation;
+                originalPosition = viewPoint.position - viewPoint.forward * 1.5f; // Fallback Position
+                originalRotation = Quaternion.LookRotation(viewPoint.forward);
+            }
+        }
     }
 
     void Update()
     {
-        // Wenn wir am Terminal sind und Escape dr¸cken -> Aufstehen
+        // Rauskommen mit ESC
         if (isAtTerminal && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.X)))
         {
             ExitTerminal();
         }
     }
 
-    // --- IInteractable Implementation ---
+    // --- IInteractable Implementation (Das hat gefehlt!) ---
 
     public void OnInteract()
     {
-        EnterTerminal(false);
+        // Nur interagieren, wenn erlaubt (vom MysteryManager)
+        if (isInteractable && !isAtTerminal)
+        {
+            EnterTerminal();
+        }
     }
 
     public void OnHoverEnter()
     {
-        // Optional: Monitor Rahmen leuchten lassen
+        // Optional: Monitor leuchten lassen
     }
 
     public void OnHoverExit()
@@ -65,55 +71,50 @@ public class TerminalController : MonoBehaviour, IInteractable
 
     public string GetDescription()
     {
-        return "Terminal benutzen";
+        if (isInteractable) return promptText;
+        return ""; // Kein Text, wenn gesperrt
     }
 
     // --- Logik ---
 
-    public void EnterTerminal(bool instant)
+    public void EnterTerminal()
     {
-        if (isAtTerminal) return;
+        isAtTerminal = true;
 
-        // 1. Position merken
+        // 1. Position merken (wo wir standen)
         originalPosition = mainCam.transform.position;
         originalRotation = mainCam.transform.rotation;
 
-        // 2. State ‰ndern (Maus wird sichtbar, Movement gesperrt)
+        // 2. State ‰ndern
         GameManager.Instance.UpdateGameState(GameState.ReadingLog);
 
-        isAtTerminal = true;
-
-        // 3. UI aktivieren (falls vorher aus)
-        terminalCanvas.gameObject.SetActive(true);
-
-        // 4. Hinbewegen
+        // 3. Hinbewegen
         StopAllCoroutines();
-        if (instant)
-        {
-            mainCam.transform.position = viewPoint.position;
-            mainCam.transform.rotation = viewPoint.rotation;
-        }
-        else
-        {
-            StartCoroutine(MoveCamera(viewPoint.position, viewPoint.rotation));
-        }
+        StartCoroutine(MoveCamera(viewPoint.position, viewPoint.rotation));
     }
 
     public void ExitTerminal()
     {
-        if (!isAtTerminal) return;
-
         isAtTerminal = false;
 
-        // 1. Zur¸ckbewegen
+        // 1. Zur¸ckbewegen (zu der Position, wo wir standen, ODER Standard Position)
+        // Falls wir direkt im Stuhl gestartet sind, haben wir keine "originalPosition". 
+        // Wir nehmen eine Position etwas hinter dem Stuhl an.
+        Vector3 targetPos = (originalPosition == Vector3.zero) ? viewPoint.position - viewPoint.forward * 1.5f : originalPosition;
+        Quaternion targetRot = (originalPosition == Vector3.zero) ? Quaternion.LookRotation(viewPoint.forward) : originalRotation;
+
         StopAllCoroutines();
-        StartCoroutine(MoveCamera(originalPosition, originalRotation, () => {
-            // Wenn angekommen:
+        StartCoroutine(MoveCamera(targetPos, targetRot, () => {
             GameManager.Instance.UpdateGameState(GameState.FreeLook);
         }));
     }
 
-    // Sanfte Kamerafahrt
+    // --- Helper zum Aktivieren von Auﬂen ---
+    public void SetInteractable(bool state)
+    {
+        isInteractable = state;
+    }
+
     IEnumerator MoveCamera(Vector3 targetPos, Quaternion targetRot, System.Action onComplete = null)
     {
         float t = 0f;
@@ -122,20 +123,14 @@ public class TerminalController : MonoBehaviour, IInteractable
 
         while (t < 1f)
         {
-            t += Time.deltaTime * transitionSpeed;
-            // SmoothStep f¸r weicheres Anfahren/Bremsen
+            t += Time.deltaTime * 2.0f; // Speed
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
-
             mainCam.transform.position = Vector3.Lerp(startPos, targetPos, smoothT);
             mainCam.transform.rotation = Quaternion.Slerp(startRot, targetRot, smoothT);
-
             yield return null;
         }
-
-        // Sicherstellen dass wir exakt ankommen
         mainCam.transform.position = targetPos;
         mainCam.transform.rotation = targetRot;
-
         onComplete?.Invoke();
     }
 }

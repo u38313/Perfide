@@ -2,47 +2,33 @@ using UnityEngine;
 
 public class StoryDirector : MonoBehaviour
 {
-    [Header("Die Akteure")]
-    public GameObject grigsbyInside;  // Der, der reinkommt
-    public GameObject grigsbyOutside; // Der vor dem Fenster
+    [Header("Actors")]
+    public GameObject grigsbyInside;
+    public GameObject grigsbyOutside;
 
-    [Header("Story Data")]
-    public TextAsset introInkJSON;    // Die Dialog-Datei
+    [Header("Ink Files")]
+    public TextAsset introInkJSON;
 
-    private void Start()
+    void Start()
     {
-        // 1. Am Anfang sind beide unsichtbar
+        // Am Anfang alle verstecken
         if (grigsbyInside) grigsbyInside.SetActive(false);
         if (grigsbyOutside) grigsbyOutside.SetActive(false);
 
-        // 2. Wir hören auf den DialogueManager
-        if (DialogueManager.Instance != null)
-        {
-            DialogueManager.Instance.OnGameEvent += HandleInkEvents;
-        }
+        // Auf Ink hören für "RevealOutside" Event im Intro
+        DialogueManager.Instance.OnGameEvent += OnDirectorEvent;
     }
 
-    private void OnDestroy()
+    public void StartIntroScene()
     {
-        // Sauber abmelden um Errors zu vermeiden
-        if (DialogueManager.Instance != null)
-        {
-            DialogueManager.Instance.OnGameEvent -= HandleInkEvents;
-        }
-    }
-
-    // --- Diese Funktion wird von der LUKE aufgerufen (via SimpleInteractable) ---
-    public void StartIntruderSequence()
-    {
-        // A. Grigsby Drinnen taucht auf
+        // 1. Grigsby kommt rein
         if (grigsbyInside) grigsbyInside.SetActive(true);
 
-        // B. Dialog Starten
+        // 2. Dialog startet
         DialogueManager.Instance.StartDialogue(introInkJSON);
     }
 
-    // --- Diese Funktion reagiert auf Ink Tags ---
-    void HandleInkEvents(string eventName)
+    void OnDirectorEvent(string eventName)
     {
         if (eventName == "RevealOutside")
         {

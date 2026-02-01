@@ -291,13 +291,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayText: {fileID: 1411286819}
-  scrollRect: {fileID: 1411286820}
   categoryButtons:
   - {fileID: 1411286821}
   - {fileID: 1822409773}
   - {fileID: 1245642618}
   - {fileID: 1561256670}
-  typingSpeed: 0.03
+  typingSpeed: 0.05
 --- !u!114 &266784060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,10 +309,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a6e8053f073054586e1baa11932d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terminalUIScript: {fileID: 266784059}
   viewPoint: {fileID: 665824030}
   terminalCanvas: {fileID: 1411286822}
-  transitionSpeed: 2
+  promptText: Read Logs
+  isInteractable: 0
   startActive: 1
 --- !u!4 &266784061
 Transform:
@@ -1040,9 +1039,9 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 874702398}
-        m_TargetAssemblyTypeName: StoryDirector, Assembly-CSharp
-        m_MethodName: StartIntruderSequence
+      - m_Target: {fileID: 1238606410}
+        m_TargetAssemblyTypeName: MysteryManager, Assembly-CSharp
+        m_MethodName: OnWindowInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1988,9 +1987,29 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -8527312953552979603, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -7859594485295946628, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -7809573613937861618, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7240158700599416315, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -7240158700599416315, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6643425275576429241, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -3656068377111899785, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2040,6 +2059,10 @@ PrefabInstance:
       propertyPath: m_LightProbeUsage
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1917532403097510893, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -1421011372335782134, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -2055,6 +2078,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
       propertyPath: m_Name
       value: SpaceRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 2798961044837689471, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3449753208549436407, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5147714281615793208, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2104,6 +2135,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -7240158700599416315, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1780527220}
+    - targetCorrespondingSourceObject: {fileID: -7240158700599416315, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1780527221}
     - targetCorrespondingSourceObject: {fileID: -1421011372335782134, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 747178883}
@@ -2140,13 +2174,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd17705c66a3f54496ebfd97fb497cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  terminalController: {fileID: 266784060}
   terminalUI: {fileID: 266784059}
+  storyDirector: {fileID: 874702398}
   interrogationInk: {fileID: 4900000, guid: b0865ba642da6b14eb417b3a4f2f5e34, type: 3}
   gunObject: {fileID: 806975349}
   leverObject: {fileID: 772164951}
-  heardInsideStory: 0
-  heardOutsideStory: 0
-  scanLogUnlocked: 0
 --- !u!4 &1238606411
 Transform:
   m_ObjectHideFlags: 0
@@ -2853,7 +2886,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6449777665577575863, guid: 7169c88a6864b504795f62072a604840, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000002476937
+      value: 0.0005204469
       objectReference: {fileID: 0}
     - target: {fileID: 6589693810627255421, guid: 7169c88a6864b504795f62072a604840, type: 3}
       propertyPath: m_RenderMode
@@ -3025,17 +3058,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1411286820 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6052744059154244378, guid: 7169c88a6864b504795f62072a604840, type: 3}
-  m_PrefabInstance: {fileID: 1411286817}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1411286821 stripped
@@ -3455,6 +3477,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -7240158700599416315, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
   m_PrefabInstance: {fileID: 1228694252}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &1780527217 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6890149093832778678, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
+  m_PrefabInstance: {fileID: 1228694252}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1780527219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3467,10 +3494,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a6e8053f073054586e1baa11932d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terminalUIScript: {fileID: 0}
-  viewPoint: {fileID: 0}
-  terminalCanvas: {fileID: 0}
-  transitionSpeed: 2
+  viewPoint: {fileID: 665824030}
+  terminalCanvas: {fileID: 1411286822}
+  promptText: Terminal benutzen
+  isInteractable: 0
   startActive: 1
 --- !u!114 &1780527220
 MonoBehaviour:
@@ -3479,17 +3506,50 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780527215}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df26bb3fd8b49914da83ef954507eff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   promptText: Read Logs
-  targetRenderer: {fileID: 0}
-  highlightColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  targetRenderer: {fileID: 1780527217}
+  highlightColor: {r: 0, g: 1, b: 0.45026922, a: 1}
   onInteract:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1238606409}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &1780527221
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780527215}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.003203207, y: 0.0049090604, z: 0.0031038641}
+  m_Center: {x: -0.0012573597, y: 0.0000025602446, z: -0.000032169897}
 --- !u!1 &1786008970
 GameObject:
   m_ObjectHideFlags: 0
@@ -4211,7 +4271,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1238606410}
         m_TargetAssemblyTypeName: MysteryManager, Assembly-CSharp
-        m_MethodName: TalkToInside
+        m_MethodName: OnInsideGrigsbyInteract
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

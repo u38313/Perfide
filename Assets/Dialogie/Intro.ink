@@ -70,4 +70,5 @@ I'm gonna have a Chat with each of you, and determine what to do afterwards.
 And NO funny Business from either of you.
 
 // Und hier endet das Gespräch komplett
+# event: IntroDone
 -> END
