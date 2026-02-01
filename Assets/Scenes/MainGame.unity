@@ -296,7 +296,7 @@ MonoBehaviour:
   - {fileID: 1822409773}
   - {fileID: 1245642618}
   - {fileID: 1561256670}
-  typingSpeed: 0.05
+  typingSpeed: 0.02
 --- !u!114 &266784060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,9 +311,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewPoint: {fileID: 665824030}
   terminalCanvas: {fileID: 1411286822}
-  promptText: Read Logs
-  isInteractable: 0
   startActive: 1
+  transitionSpeed: 0.75
+  interactPrompt: Terminal benutzen
 --- !u!4 &266784061
 Transform:
   m_ObjectHideFlags: 0
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Scan
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -1844,7 +1844,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Log 86
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -2129,9 +2129,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2103623680}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: -7240158700599416315, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1780527219}
     - targetCorrespondingSourceObject: {fileID: -7240158700599416315, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1780527220}
@@ -2612,6 +2609,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 907391569462469396, guid: 7169c88a6864b504795f62072a604840, type: 3}
+      propertyPath: m_text
+      value: Warning
+      objectReference: {fileID: 0}
     - target: {fileID: 1184883642494619777, guid: 7169c88a6864b504795f62072a604840, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 65
@@ -2886,7 +2887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6449777665577575863, guid: 7169c88a6864b504795f62072a604840, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0005204469
+      value: 0.00020797226
       objectReference: {fileID: 0}
     - target: {fileID: 6589693810627255421, guid: 7169c88a6864b504795f62072a604840, type: 3}
       propertyPath: m_RenderMode
@@ -3482,23 +3483,6 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6890149093832778678, guid: f37d349fbe5e9dc469f70f9bbaf8c0c7, type: 3}
   m_PrefabInstance: {fileID: 1228694252}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1780527219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1780527215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7a6e8053f073054586e1baa11932d71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewPoint: {fileID: 665824030}
-  terminalCanvas: {fileID: 1411286822}
-  promptText: Terminal benutzen
-  isInteractable: 0
-  startActive: 1
 --- !u!114 &1780527220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3517,13 +3501,13 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1238606409}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 266784060}
+        m_TargetAssemblyTypeName: TerminalController, Assembly-CSharp
+        m_MethodName: EnterTerminal
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3745,7 +3729,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: ' Crew Log'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -4108,7 +4092,7 @@ Transform:
   m_GameObject: {fileID: 1854679312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.522, y: 1.72, z: 0.399}
+  m_LocalPosition: {x: 1.522, y: 1.655, z: 0.732}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

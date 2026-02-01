@@ -92,12 +92,6 @@ public class MysteryManager : MonoBehaviour
         // 1. Logs freischalten
         terminalUI.UnlockLog(2);
 
-        // 2. MONITOR INTERAKTION FREISCHALTEN!
-        if (terminalController != null)
-        {
-            terminalController.SetInteractable(true);
-        }
-
         // 3. Flags setzen
         isIntroFinished = true;
     }

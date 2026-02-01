@@ -3,118 +3,119 @@ using System.Collections;
 
 public class TerminalController : MonoBehaviour, IInteractable
 {
-    [Header("References")]
-    public Transform viewPoint;
-    public Canvas terminalCanvas;
+    [Header("Setup")]
+    public Transform viewPoint;       // Wo ist der Kopf beim Lesen?
+    public Canvas terminalCanvas;     // Das UI
 
-    [Header("Settings")]
-    public string promptText = "Terminal benutzen";
-    public bool isInteractable = false; // Wird vom MysteryManager gesteuert!
-    public bool startActive = true;     // Startet das Spiel sitzend?
+    [Header("Einstellungen")]
+    public bool startActive = true;   // Startet man sitzend?
+    public float transitionSpeed = 2.0f;
+    [Tooltip("Wie viele Meter hinter dem 'ViewPoint' landet man, wenn man aufsteht (nur beim Spielstart wichtig)?")]
+    public float standUpOffset = 0.6f; // Kleinerer Wert = n‰her am Tisch
+    public string interactPrompt = "Terminal benutzen";
 
     private Camera mainCam;
-    private Vector3 originalPosition;
-    private Quaternion originalRotation;
+    private Vector3 savedPosition;     // Gespeicherte Position
+    private Quaternion savedRotation;  // Gespeicherte Rotation
     private bool isAtTerminal = false;
 
     void Start()
     {
         mainCam = Camera.main;
 
-        // Setup f¸r Spielstart
         if (startActive)
         {
-            // Wir tun so, als w‰ren wir schon reingegangen
-            isAtTerminal = true;
-            GameManager.Instance.UpdateGameState(GameState.ReadingLog);
-
-            // Kamera direkt positionieren ohne Fahrt
-            if (viewPoint != null)
-            {
-                mainCam.transform.position = viewPoint.position;
-                mainCam.transform.rotation = viewPoint.rotation;
-                originalPosition = viewPoint.position - viewPoint.forward * 1.5f; // Fallback Position
-                originalRotation = Quaternion.LookRotation(viewPoint.forward);
-            }
+            // Startet direkt im Sitz-Modus
+            StartCoroutine(ForceStartAtTerminal());
         }
     }
 
     void Update()
     {
-        // Rauskommen mit ESC
+        // Rauskommen mit ESC oder X
         if (isAtTerminal && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.X)))
         {
             ExitTerminal();
         }
     }
 
-    // --- IInteractable Implementation (Das hat gefehlt!) ---
-
+    // --- Interface f¸r InteractionController ---
     public void OnInteract()
     {
-        // Nur interagieren, wenn erlaubt (vom MysteryManager)
-        if (isInteractable && !isAtTerminal)
+        if (!isAtTerminal)
         {
             EnterTerminal();
         }
     }
 
-    public void OnHoverEnter()
-    {
-        // Optional: Monitor leuchten lassen
-    }
-
-    public void OnHoverExit()
-    {
-        // Leuchten aus
-    }
+    public void OnHoverEnter() { }
+    public void OnHoverExit() { }
 
     public string GetDescription()
     {
-        if (isInteractable) return promptText;
-        return ""; // Kein Text, wenn gesperrt
+        return isAtTerminal ? "" : interactPrompt;
     }
 
     // --- Logik ---
 
     public void EnterTerminal()
     {
+        if (isAtTerminal) return;
+
+        // 1. JETZIGE Position merken (bevor wir uns bewegen)
+        savedPosition = mainCam.transform.position;
+        savedRotation = mainCam.transform.rotation;
+
+        Debug.Log($"Position gemerkt: {savedPosition}"); // Check Konsole ob das stimmt
+
+        // 2. Status ‰ndern
         isAtTerminal = true;
-
-        // 1. Position merken (wo wir standen)
-        originalPosition = mainCam.transform.position;
-        originalRotation = mainCam.transform.rotation;
-
-        // 2. State ‰ndern
         GameManager.Instance.UpdateGameState(GameState.ReadingLog);
 
-        // 3. Hinbewegen
+        if (terminalCanvas != null) terminalCanvas.gameObject.SetActive(true);
+
+        // 3. Kamerafahrt zum Bildschirm
         StopAllCoroutines();
         StartCoroutine(MoveCamera(viewPoint.position, viewPoint.rotation));
     }
 
     public void ExitTerminal()
     {
+        if (!isAtTerminal) return;
+
         isAtTerminal = false;
 
-        // 1. Zur¸ckbewegen (zu der Position, wo wir standen, ODER Standard Position)
-        // Falls wir direkt im Stuhl gestartet sind, haben wir keine "originalPosition". 
-        // Wir nehmen eine Position etwas hinter dem Stuhl an.
-        Vector3 targetPos = (originalPosition == Vector3.zero) ? viewPoint.position - viewPoint.forward * 1.5f : originalPosition;
-        Quaternion targetRot = (originalPosition == Vector3.zero) ? Quaternion.LookRotation(viewPoint.forward) : originalRotation;
-
+        // 1. Zur¸ckbewegen zur gemerkten Position
         StopAllCoroutines();
-        StartCoroutine(MoveCamera(targetPos, targetRot, () => {
+        StartCoroutine(MoveCamera(savedPosition, savedRotation, () => {
+            // Erst wenn wir angekommen sind:
             GameManager.Instance.UpdateGameState(GameState.FreeLook);
         }));
     }
 
-    // --- Helper zum Aktivieren von Auﬂen ---
-    public void SetInteractable(bool state)
+    // --- Spezialfall: Spielstart ---
+    IEnumerator ForceStartAtTerminal()
     {
-        isInteractable = state;
+        yield return new WaitForEndOfFrame(); // Warten bis alles initialisiert ist
+
+        isAtTerminal = true;
+        GameManager.Instance.UpdateGameState(GameState.ReadingLog);
+
+        if (terminalCanvas != null) terminalCanvas.gameObject.SetActive(true);
+
+        // Kamera hart setzen
+        mainCam.transform.position = viewPoint.position;
+        mainCam.transform.rotation = viewPoint.rotation;
+
+        // Da wir keine "vorherige" Position haben, berechnen wir eine direkt hinter dem Stuhl
+        // ViewPoint schaut zum Monitor (Z+), also gehen wir -Z (nach hinten)
+        savedPosition = viewPoint.position - (viewPoint.forward * standUpOffset);
+
+        // Rotation: Wir schauen beim Aufstehen wieder Richtung Monitor
+        savedRotation = Quaternion.LookRotation(viewPoint.forward);
     }
 
+    // --- Kamerafahrt ---
     IEnumerator MoveCamera(Vector3 targetPos, Quaternion targetRot, System.Action onComplete = null)
     {
         float t = 0f;
@@ -123,14 +124,18 @@ public class TerminalController : MonoBehaviour, IInteractable
 
         while (t < 1f)
         {
-            t += Time.deltaTime * 2.0f; // Speed
+            t += Time.deltaTime * transitionSpeed;
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
             mainCam.transform.position = Vector3.Lerp(startPos, targetPos, smoothT);
             mainCam.transform.rotation = Quaternion.Slerp(startRot, targetRot, smoothT);
+
             yield return null;
         }
+
         mainCam.transform.position = targetPos;
         mainCam.transform.rotation = targetRot;
+
         onComplete?.Invoke();
     }
 }
