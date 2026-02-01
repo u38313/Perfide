@@ -13,7 +13,7 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Ink Setup")]
     public TextAsset inkJSONAsset; // Hier die kompilierte .json von Ink reinziehen
-    private Story story;
+    public Story story; // war vorher private
 
     [Header("UI References")]
     public GameObject dialoguePanel;
@@ -67,9 +67,9 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(true);
 
         RefreshView();
-    }
+    }   
 
-    void RefreshView()
+   public void RefreshView()
     {
         // 1. Alte Buttons löschen
         foreach (Transform child in choiceContainer) Destroy(child.gameObject);

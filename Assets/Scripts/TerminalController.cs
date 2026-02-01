@@ -97,9 +97,6 @@ public class TerminalController : MonoBehaviour, IInteractable
         {
             StartCoroutine(MoveCamera(viewPoint.position, viewPoint.rotation));
         }
-
-        // Starte den Text im UI Skript
-        terminalUIScript.ShowCategory("Willkommen Benutzer.\nBitte wählen Sie einen Eintrag.");
     }
 
     public void ExitTerminal()
